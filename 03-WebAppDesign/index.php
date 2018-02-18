@@ -1,5 +1,6 @@
 <?php 
-   session_start();
+	//Start all sessions
+   	session_start();
 ?>
 <!DOCTYPE html>
     <head>
@@ -36,6 +37,7 @@
 				global $conn;
 				$medTotal = array();
 
+				//Checking if sessions have been set for the previously searched medications
 				if(isset($_SESSION["medicationFound"])){
 					$medicationFound = $_SESSION["medicationFound"];
 				}else{
@@ -43,22 +45,26 @@
 					$medicationFound = $_SESSION["medicationFound"];
 				}
 
-
+				//Checking if sessions have been set for the medication prices
 				if(isset($_SESSION["medTotal"])){
 					$medTotal = $_SESSION["medTotal"];
 				}else{
 					$_SESSION['medTotal'] = array();
 					$medTotal = $_SESSION["medTotal"];
 				}
-                
+				
+				//Storing GET value into a variable
                 $medicationSearchValue = $_GET["search_value"];
 
                 if(!empty($medicationSearchValue)){
                     //Cleans the values entered in the inputs and then searches for the medication
                     $medicationSearchValue = clean_input($medicationSearchValue);
-                    
+					
+					//This is a second check that the value is not empty, this is in case a html entity etc was entered
+					//and got stripped out, this makes sure there is still a value before preceeding, if not the search
+					//query was not valid eg. putting in <h2> would be stopped at this if but if it has <h2>Hello World</h2>
+					//it will leave the text and proceed
                     if(!empty($medicationSearchValue)){
-
                         $medicationSearchValue = strtolower($medicationSearchValue);
                         searchForMedicine($medicationSearchValue);
                     }else{
@@ -71,31 +77,32 @@
                 }
 
                 //Function that cleans data and strips out tags and code so inputs can't be code
-                function clean_input($data){
-                    
+                function clean_input($data){                    
                     $data = strip_tags($data);
                     $data = trim($data);
                     $data = htmlentities($data);
                     $data = htmlspecialchars($data);
                     $data = strIpslashes($data);
-
                     return $data;
                 }
 				
 				function searchForMedicine($medicationSearchValue){
+					// Creating the table in browser
 					echo "<hr><br>";
 					echo "<table><tr><th>Medicine</th><th>Pack Size</th><th>Price</th></tr>";
 
+					// This try is for retrieval of data that was just entered and submitted in the search box
 					try{
+						//DB connection and prepared sql statement
 	                    $conn = new PDO('mysql:host=localhost; dbname=PLACEHOLDER', 'PLACEHOLDER', 'PLACEHOLDER');
-                        $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-																		
+                        $conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);																		
 						$searchMedicine = $conn->prepare("SELECT * FROM Medicines WHERE product_name='$medicationSearchValue'");
 
-						//Execute
+						//Execute and fetching results
 						$searchMedicine->execute();
 						$medicine = $searchMedicine->fetchAll(PDO::FETCH_ASSOC);
 						
+						//If the search is valid and returns values, it creates table rows
 						if((!empty($searchMedicine)) && ($searchMedicine != NULL)){
 							$medicationFound = $_SESSION["medicationFound"];
 							for($i=0; $i < count($medicine); $i++){
@@ -111,21 +118,20 @@
 						echo 'ERROR: '.$e -> getMessage();
 					}
 
-
-
+					//This is used for retrieval of data of previosuly searched which have been saved into a session array
 					if(isset($_SESSION["medicationFound"])){
 						$arrVals = $_SESSION["medicationFound"];
-						try{  
+						try{
+							//Looping through session array  
 							for($i=0; $i < count($arrVals); $i++){
-								
-								
 								$conn = new PDO('mysql:host=localhost; dbname=PLACEHOLDER', 'PLACEHOLDER', 'PLACEHOLDER');
                         		$conn -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 								$searchFoundMeds = $conn->prepare("SELECT * FROM Medicines");
 								$searchFoundMeds->execute();
 								$prevMed = $searchFoundMeds->fetchAll(PDO::FETCH_ASSOC);
-							//	$arrVals = $medicationFound[$prevMed];
 								$row = $prevMed[$i];
+
+								//Displays results as table rows and pushes prices into session array medTotal
 								echo "<tr><td>".$row['product_name']."</td><td>".$row['pack_size']."</td><td>".$row['price']."</td></tr>";														
 								array_push($_SESSION['medTotal'], $row['price']);
 							}	
@@ -134,16 +140,13 @@
 							echo 'ERROR: '.$e -> getMessage();
 						}
 					}
-					
 					echo "</table>";
-					$medSumTotal = array_sum($medTotal);
-					echo "<div id='total'><center><b>Total:".$medSumTotal."</b></center></div>";
-												
-				}		
-                
-		?>
-          
-        </div>
 
+					//Generating the medTotal
+					$medSumTotal = array_sum($medTotal);
+					echo "<div id='total'><center><b>Total:".$medSumTotal."</b></center></div>";							
+				}		     
+		?>
+        </div>
     </body>
 </html>

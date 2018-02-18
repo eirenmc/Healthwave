@@ -3,14 +3,18 @@ window.onload=init();
 function init(){
     var medData = ["Paracetamol_row01_col01", "Paracetamol_row01_col02", "Paracetamol_row01_col03", "Atorvastatin_row02_col01","Atorvastatin_row02_col02", "Atorvastatin_row02_col03", "Melatonin_row03_col01", "Melatonin_row03_col02", "Melatonin_row03_col03"];
 	var sortMedBtn = document.getElementById("sortMeds");
+	
+	//Event listener for button click
 	sortMedBtn.addEventListener("click", sortMedRecords);
 }
 
+//Calls the sort and row color change functions
 function sortMedRecords(){
 	medData.sort(sortAndShow);
 	changeRowColours();
 }
 
+//Sorts the data alphabetically
 function sortAndShow(a,b){
     var nameA = a.medData.toLowerCase(), nameB = b.medData.toLowerCase();
 	
@@ -28,6 +32,7 @@ function sortAndShow(a,b){
 	}
 }
 
+//Changing row colours once sorted
 function changeRowColours(){
     var tableElements = document.getElementsByTagName("table");
 	

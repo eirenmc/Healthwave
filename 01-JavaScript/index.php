@@ -1,6 +1,6 @@
 <!DOCTYPE html>
     <head>
-		<title> Healthwave Exercise 03 </title>
+		<title> Healthwave Exercise 01 </title>
 		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -40,3 +40,5 @@
         <center><button class="btn btn-fault"> Sort Table </button></center>
 
         </div>
+    </body>
+</html>
