@@ -1,0 +1,33 @@
+body{
+    background-image: url("images/background.jpg");
+    background-color: #DCE5E5;
+   background-size: 100vw 100vh;
+}
+
+.container{
+    justify-content: center;
+	background-color: white;
+	width:70%;	
+	margin-top:6%;
+	padding:0% 5% 3% 5%;
+}
+  
+table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+th{
+	background-color:#00bfb3;
+	color:white;
+}
+
+h2{
+	padding-bottom: 2%;
+	color:#00bfb3;
+}

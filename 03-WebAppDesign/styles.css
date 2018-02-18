@@ -1,0 +1,60 @@
+body{
+    background-image: url("images/background.jpg");
+    background-color: #DCE5E5;
+   /* background-size: cover;*/
+   background-size: 100vw 100vh;
+}
+
+.container{
+    justify-content: center;
+	background-color: white;
+	width:70%;	
+	margin-top:6%;
+	padding:0% 5% 3% 5%;
+}
+
+.container > form {
+    background-color: white;
+    margin: 10px 0px;
+	height:75px;
+    padding:2% 0%;
+	justify-content: center;
+	align-items: center;
+  }
+  
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+
+th{
+	background-color:#00bfb3;
+	color:white;
+}
+
+tr:nth-child(even) {background-color: #f2f2f2;}
+
+#total{
+	border-top: 5px solid #00bfb3;
+	font-size:15pt;
+	padding:2% 0%;
+}
+
+h2{
+	padding-bottom: 2%;
+	color:#00bfb3;
+}
+
+hr{
+	width:50%;
+	color:#00bfb3;
+	height:3px;
+	background-color:#00bfb3;
+}
